@@ -1,0 +1,27 @@
+{
+  "name": "reciter-pub-notifier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "start": "ts-node src/index.ts",
+    "postbuild": " cp package.json dist/package.json && cd dist && npm install --only=production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/nodemailer": "^6.4.14",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "handlebars": "^4.7.8",
+    "mysql2": "^3.6.5",
+    "nodemailer": "^6.9.7",
+    "rimraf": "^5.0.5",
+    "sequelize": "^6.35.1"
+  }
+}
