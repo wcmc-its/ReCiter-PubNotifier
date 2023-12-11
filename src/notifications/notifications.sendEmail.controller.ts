@@ -1,18 +1,13 @@
-//import NodeMailer from "nodemailer";
 import models from '../db/sequelize';
 import sequelize from "../config/db.config";
 import * as Handlebars from "handlebars";
 import * as NodeMailer from "nodemailer";
 import {sendEmailNotification} from '../utils/emailUtilityHelper';
-//const emailUtilityHelper = require('../utils/emailUtilityHelper');
 
-//const emailUtilityHelper = require('../utils/emailUtilityHelper');
-//const emailUtilityHelper: sendEmailNotification = require('../utils/emailUtilityHelper');
 
 export const sendPubEmailNotifications = async (
   ) => {
   
-    console.log('coming into sendPubEmailNotifications***************************');
   try {
     const generateEmailNotifications: any = await sequelize.query(
       "CALL generateEmailNotifications ('','')",
@@ -21,10 +16,8 @@ export const sendPubEmailNotifications = async (
       }
     );
 
-    console.log('generateEmailNotifications***********************',generateEmailNotifications);
     if(generateEmailNotifications.length > 0){
         await processPubNotification(generateEmailNotifications);
-        console.log('Emails Processed***********************');
       }else{
         let noData = {
           message: "Could not find any notifications"
@@ -41,7 +34,6 @@ export const sendPubEmailNotifications = async (
 export async function processPubNotification(pubDetails:any) {
     
   
- console.log('processing notificaton*************************') 
   const fromAddress =
     process.env.NODE_ENV === "production"
       ? '"Reciter Pub Manager" <publications@med.cornell.edu>'
@@ -60,11 +52,8 @@ export async function processPubNotification(pubDetails:any) {
       noConfiguredNotifPersonIdentifiers.push(personIdentifier)
     }else
     {
-      //const personIdentifierProfileLink = !isCronJob? originLocation + '/curate/' + personIdentifier:'';
-     // const navigateToCurateSelfPage = !isCronJob ? originLocation + '/curate/' + personIdentifier :'';
       let acceptedPublicationArray = accepted_publications && accepted_publications.indexOf('~!,') > -1 ? accepted_publications.split('~!,') : accepted_publications.split('~!');
       let suggestedPublicationArray = suggested_publications && suggested_publications.indexOf('~!,') > -1 ? suggested_publications.split('~!,'): suggested_publications.split('~!');
-     // const notificationsLink = !isCronJob ? originLocation + '/notifications/' + personIdentifier : '';
 
       const emailNotificationTemplate = `<div style="font-family: Arial; font-size : 11pt"><p>{{salutation}},</p>
                     <p>{{acceptedSubjectHeadline}}</p>
@@ -95,9 +84,9 @@ export async function processPubNotification(pubDetails:any) {
               maxSuggestedPublicationToDisplay:max_suggested_publication_to_display,
               acceptedPubCount : accepted_pub_count,
               suggestedPubCount : suggested_pub_count,
-              notificationsLink : '',//notificationsLink,
-              personIdentifierProfileLink : '',//personIdentifierProfileLink,
-              navigateToCurateSelfPage : ''//navigateToCurateSelfPage
+              notificationsLink : '',
+              personIdentifierProfileLink : '',
+              navigateToCurateSelfPage : ''
           };
           var emailBody = template(replacements);     
       
@@ -107,7 +96,7 @@ export async function processPubNotification(pubDetails:any) {
         subject: subject,
         html: emailBody
       }
-      let emailInfo = await sendEmailNotification(mailOptions) //{
+      let emailInfo = await sendEmailNotification(mailOptions) 
 
         if(emailInfo && personIdentifier)
         {
