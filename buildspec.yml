@@ -9,6 +9,7 @@ phases:
   pre_build:
     commands:
         npm run build
+        npm run postbuild
   build:
     commands:
       - zip -r Reciter-PubNotifier.zip *
