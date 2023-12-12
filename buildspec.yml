@@ -12,6 +12,8 @@ phases:
        - npm run postbuild
   build:
     commands:
+      - echo "Executing build commands and creating zip file"
+      - cd dist 
       - zip -r Reciter-PubNotifier.zip *
   
   post_build:
