@@ -21,6 +21,6 @@ phases:
       - aws s3 cp Reciter-PubNotifier.zip s3://reciterpubmgrnotifications/
       - aws lambda update-function-code --function-name ReciterPublicationMgrEmailNotifications --s3-bucket reciterpubmgrnotifications --s3-key Reciter-PubNotifier.zip
 artifacts:
-  files: Reciter-PubNotifier.zip
+  files: - '**/*'
   
   
