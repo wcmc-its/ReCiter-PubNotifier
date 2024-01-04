@@ -42,7 +42,7 @@ export async function processPubNotification(pubDetails:any) {
   let noEligiblePubNotifPersonIdentifiers:string[] = [];
   let successEmailNotifPersonIdentifiers:string[] =[];
   const data = pubDetails.map(async (pubRec:any) => {
-    let { admin_user_id,sender,recipient,subject,salutation, accepted_subject_headline,accepted_publications,suggested_subject_headline,suggested_publications,signature,max_accepted_publication_to_display,max_suggested_publication_to_display,personIdentifier,accepted_pub_count,suggested_pub_count,accepted_publication_det,suggested_publication_det,pub_error_message, notif_error_message } = JSON.parse(JSON.stringify(pubRec))
+    let { admin_user_id,sender,recipient,subject,salutation, accepted_subject_headline,accepted_publications,suggested_subject_headline,suggested_publications,signature,max_accepted_publication_to_display,max_suggested_publication_to_display,personIdentifier,accepted_pub_count,suggested_pub_count,accepted_publication_det,suggested_publication_det,pub_error_message, notif_error_message,max_message_id } = JSON.parse(JSON.stringify(pubRec))
    
     if(pub_error_message)
     {
@@ -102,7 +102,7 @@ export async function processPubNotification(pubDetails:any) {
         {
             successEmailNotifPersonIdentifiers.push(personIdentifier);
             //calling upon sending successful email notifications
-            saveNotificationsLog(admin_user_id, recipient, accepted_publication_det, suggested_publication_det)
+            saveNotificationsLog(admin_user_id, recipient, accepted_publication_det, suggested_publication_det,max_message_id)
     
         }
   }
@@ -123,7 +123,7 @@ export async function processPubNotification(pubDetails:any) {
  }
 
 
-export async function saveNotificationsLog (admin_user_id:string,recipient:string,accepted_publication_det:any,suggested_publication_det:any) {
+export async function saveNotificationsLog (admin_user_id:string,recipient:string,accepted_publication_det:any,suggested_publication_det:any,max_message_id:number) {
   
   try {
     let acceptAndSuggestPubs:any[] = [];
@@ -131,7 +131,7 @@ export async function saveNotificationsLog (admin_user_id:string,recipient:strin
 
     accepted_publication_det && JSON.parse(accepted_publication_det)  && JSON.parse(accepted_publication_det).length > 0 && JSON.parse(accepted_publication_det).map((pub:any)=>{
     let obj = {
-          'messageID': '',
+          'messageID': max_message_id +1,
           'pmid': pub.PMID,
           'articleScore': pub.totalArticleScoreStandardized,
           'email': recipient, 
@@ -148,7 +148,7 @@ export async function saveNotificationsLog (admin_user_id:string,recipient:strin
 
     suggested_publication_det && JSON.parse(suggested_publication_det) && JSON.parse(suggested_publication_det).length > 0 && JSON.parse(suggested_publication_det).map((pub:any)=>{
       let obj = {
-            'messageID': '',
+            'messageID': max_message_id +1,
             'pmid': pub.PMID,
             'articleScore': pub.totalArticleScoreStandardized,
             'email': recipient, 
