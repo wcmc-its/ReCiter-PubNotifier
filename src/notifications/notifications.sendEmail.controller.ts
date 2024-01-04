@@ -127,7 +127,7 @@ export async function saveNotificationsLog (admin_user_id:string,recipient:strin
   
   try {
     let acceptAndSuggestPubs:any[] = [];
-    if(!accepted_publication_det) console.error('Unable to save Notification log due to missing accepted publication details',admin_user_id);  
+    if(!accepted_publication_det) console.error('Unable to save Notification log due to missing accepted publication details',admin_user_id, (accepted_publication_det? accepted_publication_det.length:0));  
 
     accepted_publication_det && JSON.parse(accepted_publication_det)  && JSON.parse(accepted_publication_det).length > 0 && JSON.parse(accepted_publication_det).map((pub:any)=>{
     let obj = {
@@ -144,7 +144,7 @@ export async function saveNotificationsLog (admin_user_id:string,recipient:strin
     }
     )
 
-    if(!suggested_publication_det) console.error('Unable to save Notification log due to missing accepted publication details',admin_user_id);
+    if(!suggested_publication_det) console.error('Unable to save Notification log due to missing accepted publication details',admin_user_id,(suggested_publication_det?suggested_publication_det.length : 0));
 
     suggested_publication_det && JSON.parse(suggested_publication_det) && JSON.parse(suggested_publication_det).length > 0 && JSON.parse(suggested_publication_det).map((pub:any)=>{
       let obj = {
