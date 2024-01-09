@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
     {
         dialect: 'mysql',
         dialectOptions: {
-            connectTimeout: 60000, // 60 seconds
+            connectTimeout: 120000, // 60 seconds
         },
         host:  process.env.RECITER_DB_HOST  ,
         port: 3306,
