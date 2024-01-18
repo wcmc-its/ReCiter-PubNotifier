@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20.10.0
+    commands:
+      - npm install
+  pre_build:
+    commands:
+       - npm run build
+       - npm run postbuild
+  build:
+    commands:
+      - echo "Executing build commands and creating zip file"
+      - cd dist 
+      - zip -r Reciter-PubNotifier.zip *
+  
+  post_build:
+     commands:   
+      - aws s3 cp Reciter-PubNotifier.zip s3://reciterpubmgrnotifications/
+      - aws lambda update-function-code --function-name ReciterPublicationMgrEmailNotifications --s3-bucket reciterpubmgrnotifications --s3-key Reciter-PubNotifier.zip
+artifacts:
+  files: '**/*'
+  base-directory: 'dist'
+  discard-paths: no
+  name: Reciter-PubNotifier
+  
