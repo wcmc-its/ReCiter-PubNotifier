@@ -3,7 +3,12 @@ import  {getSecret} from '../utils/secretsManager';
 
 export async function sendEmailNotification(mailOptions:any) {
   // create reusable transporter object using the default SMTP transport
-  const dbSecrets = await getSecret('ReciterPubNotifierDev');
+  let dbSecrets:any ='';
+  const reciterPubSecretManager = process.env.RECITER_PUB_SECRET_MANAGER || '';
+  if(reciterPubSecretManager && reciterPubSecretManager =='AWS')
+  {
+        dbSecrets = await getSecret( reciterPubSecretManager);
+  }
   const { SMTP_HOST_NAME,SMTP_ADMIN_EMAIL,SMTP_PASSWORD,SMTP_USER,SMTP_PORT, SMTP_SECURE } = dbSecrets;
 
   const transporter = nodemailer.createTransport({
