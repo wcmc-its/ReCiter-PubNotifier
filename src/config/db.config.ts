@@ -9,9 +9,10 @@ export async function initializeSequelize() {
     try {
         // Retrieve secrets from AWS Secrets Manager
             let dbSecrets:any ='';
-            const reciterPubSecretManager = process.env.RECITER_PUB_SECRET_MANAGER || '';
-            if(reciterPubSecretManager && reciterPubSecretManager =='AWS')
+            const reciterPubNotifierSecretLoc = process.env.RECITER_PUB_NOTIFIER_SECRET_LOC || '';
+            if(reciterPubNotifierSecretLoc && reciterPubNotifierSecretLoc =='AWS')
             {
+                const reciterPubSecretManager = process.env.RECITER_PUB_SECRET_MANAGER || '';
                  dbSecrets = await getSecret( reciterPubSecretManager);
             }
             const { RECITER_DB_NAME,RECITER_DB_USERNAME,RECITER_DB_PASSWORD,RECITER_DB_HOST,RECITER_DB_REGION, RECITER_DB_PORT } = dbSecrets;
