@@ -1,16 +1,14 @@
-import {initSequelizeModels} from '../db/sequelize';
-import {initializeSequelize} from "../config/db.config";
+import sequelize from "../config/db.config";
+import models from "../../src/db/sequelize";
 import * as Handlebars from "handlebars";
 import {sendEmailNotification} from '../utils/emailUtilityHelper';
-import { Sequelize } from 'sequelize';
+
 
 var acceptAndSuggestPubs:any[] = []; 
 export const sendPubEmailNotifications = async (
   ) => {
   try {
 
-    const sequelize:Sequelize = await initializeSequelize();
-    const models:any = await initSequelizeModels();
     const generateEmailNotifications: any = await sequelize.query(
       "CALL generateEmailNotifications ('','')",
       {
@@ -20,7 +18,7 @@ export const sendPubEmailNotifications = async (
 
     if(generateEmailNotifications.length > 0){
         await processPubNotification(generateEmailNotifications);
-        const result = await sequelize.transaction(async (t: any) => {
+        const result = await sequelize.transaction(async (t) => {
         return await models.AdminNotificationLog.bulkCreate(acceptAndSuggestPubs, { transaction: t,benchmark: true })
       });
       }else{

@@ -1,10 +1,6 @@
-import { Sequelize } from "sequelize";
-import {initializeSequelize} from "../config/db.config";
+import sequelize from "../config/db.config";
 import { initModels } from './models/init-models';
 
+const models = initModels(sequelize);
 
-export async function initSequelizeModels() {
-const sequelize:Sequelize = await  initializeSequelize();  
- const models = initModels(sequelize);
- return models;
-}
+export default models;
