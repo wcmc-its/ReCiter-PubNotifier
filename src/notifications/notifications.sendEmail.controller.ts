@@ -1,5 +1,5 @@
 import sequelize from "../config/db.config";
-import models from "../../src/db/sequelize";
+import models from "../db/sequelize";
 import * as Handlebars from "handlebars";
 import {sendEmailNotification} from '../utils/emailUtilityHelper';
 
