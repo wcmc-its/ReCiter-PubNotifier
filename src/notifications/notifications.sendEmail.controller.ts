@@ -1,14 +1,16 @@
-import models from '../db/sequelize';
-import sequelize from "../config/db.config";
+import {initSequelizeModels} from '../db/sequelize';
+import {initializeSequelize} from "../config/db.config";
 import * as Handlebars from "handlebars";
 import {sendEmailNotification} from '../utils/emailUtilityHelper';
-
+import { Sequelize } from 'sequelize';
 
 var acceptAndSuggestPubs:any[] = []; 
 export const sendPubEmailNotifications = async (
   ) => {
   try {
 
+    const sequelize:Sequelize = await initializeSequelize();
+    const models:any = await initSequelizeModels();
     const generateEmailNotifications: any = await sequelize.query(
       "CALL generateEmailNotifications ('','')",
       {

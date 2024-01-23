@@ -3,8 +3,9 @@ import  {getSecret} from '../utils/secretsManager';
 
 require("dotenv").config();
 
-let sequelize:any ='';
-(async () => {
+   
+export async function initializeSequelize() {
+
     try {
         // Retrieve secrets from AWS Secrets Manager
             let dbSecrets:any ='';
@@ -15,7 +16,7 @@ let sequelize:any ='';
                  dbSecrets = await getSecret( reciterPubSecretManager);
             }
             const { RECITER_DB_NAME,RECITER_DB_USERNAME,RECITER_DB_PASSWORD,RECITER_DB_HOST,RECITER_DB_REGION, RECITER_DB_PORT } = dbSecrets;
-            sequelize = new Sequelize(
+            const sequelize = new Sequelize(
             RECITER_DB_NAME || process.env.RECITER_DB_NAME || "",
             RECITER_DB_USERNAME || process.env.RECITER_DB_USERNAME || "",
             RECITER_DB_PASSWORD || process.env.RECITER_DB_PASSWORD || "",
@@ -34,11 +35,10 @@ let sequelize:any ='';
                 }
             }
         );
-        
+        return sequelize; 
     }
     catch (error) {
         console.error('Error initializing Sequelize:', error);
         throw error;
         }
-})();
-export default sequelize;
+}
