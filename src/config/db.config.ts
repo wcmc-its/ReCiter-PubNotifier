@@ -34,11 +34,10 @@ let sequelize:any ='';
                 }
             }
         );
-        
     }
     catch (error) {
         console.error('Error initializing Sequelize:', error);
         throw error;
         }
 })();
-export default sequelize;
+export  {sequelize};
