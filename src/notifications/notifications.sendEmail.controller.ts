@@ -1,5 +1,5 @@
+import models from '../db/sequelize';
 import sequelize from "../config/db.config";
-import models from "../db/sequelize";
 import * as Handlebars from "handlebars";
 import {sendEmailNotification} from '../utils/emailUtilityHelper';
 
@@ -18,7 +18,7 @@ export const sendPubEmailNotifications = async (
 
     if(generateEmailNotifications.length > 0){
         await processPubNotification(generateEmailNotifications);
-        const result = await sequelize.transaction(async (t) => {
+        const result = await sequelize.transaction(async (t: any) => {
         return await models.AdminNotificationLog.bulkCreate(acceptAndSuggestPubs, { transaction: t,benchmark: true })
       });
       }else{
