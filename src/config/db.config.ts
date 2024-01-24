@@ -34,6 +34,7 @@ let sequelize:any ='';
                 }
             }
         );
+        return sequelize;
     }
     catch (error) {
         console.error('Error initializing Sequelize:', error);
