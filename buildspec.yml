@@ -19,7 +19,7 @@ phases:
   post_build:
      commands:   
       - aws s3 cp Reciter-PubNotifier.zip s3://reciterpubnotifier-prod/
-      - aws lambda update-function-code --function-name ReciterPublicationMgrEmailNotifications --s3-bucket reciterpubnotifier-prod --s3-key Reciter-PubNotifier.zip
+      - aws lambda update-function-code --function-name ReciterPublNotifier-Prod --s3-bucket reciterpubnotifier-prod --s3-key Reciter-PubNotifier.zip
 artifacts:
   files: '**/*'
   base-directory: 'dist'
