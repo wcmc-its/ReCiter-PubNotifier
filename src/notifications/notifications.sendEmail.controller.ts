@@ -93,14 +93,17 @@ export async function processPubNotification(pubDetails:any) {
             subject: subject,
             html: emailBody
           }
-          let emailInfo = await sendEmailNotification(mailOptions) 
-            if(emailInfo && personIdentifier)
-            {
-               // successEmailNotifPersonIdentifiers.push(personIdentifier);
-                //calling upon sending successful email notifications
-                await saveNotificationsLog(admin_user_id, recipient, accepted_pub_count,accepted_publication_det,suggested_pub_count, suggested_publication_det,messageId)
-                
-            }
+          if(recipient) // it skips sending email when receipt is empty
+          {
+            let emailInfo = await sendEmailNotification(mailOptions) 
+              if(emailInfo && personIdentifier)
+              {
+                // successEmailNotifPersonIdentifiers.push(personIdentifier);
+                  //calling upon sending successful email notifications
+                  await saveNotificationsLog(admin_user_id, recipient, accepted_pub_count,accepted_publication_det,suggested_pub_count, suggested_publication_det,messageId)
+                  
+              }
+          }
       }
     
 });

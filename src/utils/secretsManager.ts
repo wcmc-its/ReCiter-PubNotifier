@@ -1,5 +1,3 @@
-// secretsManager.ts
-//import { SecretsManager } from 'aws-sdk';
 import  SecretsManager  from 'aws-sdk/clients/secretsmanager';
 const secretsManager = new SecretsManager();
 
