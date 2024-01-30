@@ -1,4 +1,8 @@
 import { sendPubEmailNotifications } from "./notifications/notifications.sendEmail.controller";
+
+const AWS = require('aws-sdk');
+const codepipeline = new AWS.CodePipeline();
+
 export async function handler(event: any, context: any): Promise<any> {
   const data = await sendPubEmailNotifications();
   
