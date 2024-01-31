@@ -8,7 +8,7 @@ export async function handler(event: any, context: any): Promise<any> {
   
   try {
         await codepipeline.putJobSuccessResult({
-            jobId: event["ReCiter-PubNotifier.job"].id
+            jobId: event["ReciterPubMgrEmailNotificationTrigger.job"].id
         }).promise();
     } catch (err) {
         console.error('Error calling PutJobSuccessResult:', err);
