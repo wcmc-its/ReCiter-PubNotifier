@@ -16,11 +16,11 @@ export async function handler(event: any, context: any): Promise<any> {
     var url = event["CodePipeline.job"].data.actionConfiguration.configuration.UserParameters; 
     
     // Notify CodePipeline of a successful job
-    var putJobSuccess = function(message) {
+    var putJobSuccess = function(message:string) {
         var params = {
             jobId: jobId
         };
-        codepipeline.putJobSuccessResult(params, function(err, data) {
+        codepipeline.putJobSuccessResult(params, function(err:any, data:any) {
             if(err) {
                 context.fail(err);      
             } else {
@@ -30,7 +30,7 @@ export async function handler(event: any, context: any): Promise<any> {
     };
     
     // Notify CodePipeline of a failed job
-    var putJobFailure = function(message) {
+    var putJobFailure = function(message:any) {
         var params = {
             jobId: jobId,
             failureDetails: {
@@ -39,7 +39,7 @@ export async function handler(event: any, context: any): Promise<any> {
                 externalExecutionId: context.awsRequestId
             }
         };
-        codepipeline.putJobFailureResult(params, function(err, data) {
+        codepipeline.putJobFailureResult(params, function(err:any, data:any) {
             context.fail(message);      
         });
     };
@@ -52,19 +52,19 @@ export async function handler(event: any, context: any): Promise<any> {
     
     // Helper function to make a HTTP GET request to the page.
     // The helper will test the response and succeed or fail the job accordingly 
-    var getPage = function(url, callback) {
+    var getPage = function(url:string, callback:any) {
         var pageObject = {
             body: '',
             statusCode: 0,
-            contains: function(search) {
+            contains: function(search:any) {
                 return this.body.indexOf(search) > -1;    
             }
         };
-        http.get(url, function(response) {
+        http.get(url, function(response:any) {
             pageObject.body = '';
             pageObject.statusCode = response.statusCode;
             
-            response.on('data', function (chunk) {
+            response.on('data', function (chunk:any) {
                 pageObject.body += chunk;
             });
             
@@ -73,13 +73,13 @@ export async function handler(event: any, context: any): Promise<any> {
             });
             
             response.resume(); 
-        }).on('error', function(error) {
+        }).on('error', function(error:string) {
             // Fail the job if our request failed
             putJobFailure(error);    
         });           
     };
     
-    getPage(url, function(returnedPage) {
+    getPage(url, function(returnedPage:any) {
         try {
             // Check if the HTTP response has a 200 status
             assert(returnedPage.statusCode === 200);
