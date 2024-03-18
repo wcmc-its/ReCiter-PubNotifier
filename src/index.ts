@@ -9,12 +9,12 @@ export async function handler(event: any, context: any): Promise<any> {
   //const data = await sendPubEmailNotifications();
     
     // Retrieve the Job ID from the Lambda action
-    var jobId = event["CodePipeline.job"].id;
+   /* var jobId = event["CodePipeline.job"].id;
     console.log('event************', event);
     // Retrieve the value of UserParameters from the Lambda action configuration in CodePipeline, in this case a URL which will be
     // health checked by this function.
 	 // Notify CodePipeline of a successful job
-    var putJobSuccess = function(message:any) {
+    /*var putJobSuccess = function(message:any) {
         var params = {
             jobId: jobId
         };
@@ -53,17 +53,17 @@ export async function handler(event: any, context: any): Promise<any> {
 			console.log('err and data from fail',err,data);
             context.fail(message);      
         });
-    };
+    };*/
 
     try { 
         const data = await sendPubEmailNotifications();
 		console.log("Completed Job execution and moving to Job Success",data);
         // Succeed the job
-        putJobSuccess("Tests passed.");
+       // putJobSuccess("Tests passed.");
     } catch (ex) {
         // If any of the assertions failed then fail the job
-		console.log("Completed Job execution and moving to Job failed");
-        putJobFailure(ex);    
+		console.log("Completed Job execution and moving to Job failed",ex);
+       // putJobFailure(ex);    
     }   
 }
 
