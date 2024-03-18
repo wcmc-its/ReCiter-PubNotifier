@@ -8,8 +8,6 @@ aws lambda get-alias \
   
 DEVELOPMENT_ALIAS_VERSION=$(cat output.json | jq -r '.FunctionVersion')
 
-cd dist
-
 # UPDATE FUNCTION CODE
 aws lambda update-function-code \
  --function-name $DEPLOY_FUNCTION_NAME \
@@ -25,8 +23,6 @@ LATEST_VERSION=$(cat output.json | jq -r '.Version')
 if [[ $DEVELOPMENT_ALIAS_VERSION -ge $LATEST_VERSION ]] ; then
 exit 0
 fi
-
-cd ..
 
 # CREATE APPSPEC FILE AND UPLOAD TO S3 BUCKET
 cat > appspec.yml <<EOM

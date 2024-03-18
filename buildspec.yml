@@ -20,6 +20,7 @@ phases:
   post_build:
      commands:   
       - aws s3 cp Reciter-PubNotifier.zip s3://reciterpubmgrnotifications/
+      - cd ..
       - bash deploy.sh
 
 artifacts:
