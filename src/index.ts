@@ -19,14 +19,23 @@ export async function handler(event: any, context: any): Promise<any> {
             jobId: jobId
         };
 		console.log('params',params)
-        codepipeline.putJobSuccessResult(params, function(err:any, data:any) {
-			console.log('err and data',err,data);
-            if(err) {
-                context.fail(err);      
-            } else {
-                context.succeed(message);      
-            }
-        });
+		try
+		{
+			codepipeline.putJobSuccessResult(params, function(err:any, data:any) {
+				console.log('err and data',err,data);
+				if(err) {
+					//context.fail(err);
+					console.log(err);		
+				} else {
+					//context.succeed(message);  
+					console.log(data)		
+				}
+			});
+		}catch(ex)
+		{
+			console.log("Exception*************",ex);
+		}
+		
     };
     
     // Notify CodePipeline of a failed job
