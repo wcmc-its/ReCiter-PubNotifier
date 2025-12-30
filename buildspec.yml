@@ -1,28 +1,14 @@
 version: 0.2
 phases:
   install:
-    runtime-versions:
-      nodejs: 20.10.0
     commands:
       - npm install
-
-  pre_build:
-    commands:
-       - npm run build
-       - npm run postbuild
-
   build:
     commands:
-      - echo "Executing build commands and creating zip file"
-      - cd dist 
-      - zip -r Reciter-PubNotifier.zip *
-
-  post_build:
-     commands:   
-      - aws s3 cp Reciter-PubNotifier.zip s3://reciterpubmgrnotifications/
-      - cd ..
-      - bash deploy.sh
-
+      - npm run build
+      - npm run postbuild
 artifacts:
-  files: 
-    - appspec.yml
+  base-directory: 'dist' # Start the zip from inside the dist folder
+  files:
+    - '**/*'           # Include all compiled JS files
+    - '../appspec.yml' # Go up one level to include the appspec
