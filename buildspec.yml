@@ -11,7 +11,7 @@ phases:
     commands:
       - echo "Zipping files..."
       - cd dist && zip -r ../Reciter-PubNotifier.zip . && cd ..
-      - echo "Updating Lambda: $FUNCTION_NAME"
+      - 'echo "Updating Lambda: $FUNCTION_NAME"'
       - aws lambda update-function-code --function-name "$DEPLOY_FUNCTION_NAME" --zip-file fileb://Reciter-PubNotifier.zip
 artifacts:
   files:
