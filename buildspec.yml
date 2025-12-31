@@ -1,4 +1,5 @@
 version: 0.2
+
 phases:
   install:
     commands:
@@ -6,9 +7,12 @@ phases:
   build:
     commands:
       - npm run build
-      - npm run postbuild
+  post_build:
+    commands:
+      - echo "Zipping files..."
+      - cd dist && zip -r ../Reciter-PubNotifier.zip . && cd ..
+      - echo "Updating Lambda: $FUNCTION_NAME"
+      - aws lambda update-function-code --function-name "$DEPLOY_FUNCTION_NAME" --zip-file fileb://Reciter-PubNotifier.zip
 artifacts:
-  base-directory: 'dist' # Start the zip from inside the dist folder
   files:
-    - '**/*'           # Include all compiled JS files
-    - '../appspec.yml' # Go up one level to include the appspec
+    - Reciter-PubNotifier.zip
